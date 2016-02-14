@@ -21,11 +21,11 @@ int monthsOld(int currentYear, int currentMonth, int currentDay, int birthYear, 
         if (currentDay > birthDay) partD += 1;
         dMonths = ((currentYear - birthYear) * 12) + partD;
     }
-
     return dMonths;
 }
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
+/*
     int daynr;
 
     cout << "Select the weekday by day number\n";
@@ -38,40 +38,37 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     cout << "7: sunday \n";
     cout << "Day (1-7): ";
     cin >> daynr;
-
-    const int nonLeap [12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-    const int leap [12] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+*/
+    const int nonLeap [13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    const int leap [13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    const int *currentLeap;
 
     int currentWeekDay = 2;
     int startYear = 1901;
     int startMonth = 1;
     int startDay = 1;
 
-    int currentMonth = 0;
-
     while (startYear <= birthYear) {
-        while (startMonth <= birthMonth) {
-            while (startDay <= birthDay) {
-
+        if (startYear % 4 == 0) {
+            currentLeap = leap;
+        } else {
+            currentLeap = nonLeap;
+        }
+        while (startMonth <= 12) {
+            while (startDay <= currentLeap[startMonth]) {
+                if (startDay == birthDay && startMonth == birthMonth && startYear == birthYear) {
+                    return currentWeekDay;
+                }
+                if (currentWeekDay >= 7) currentWeekDay = 0;
                 currentWeekDay += 1;
                 startDay += 1;
-
-                if (currentWeekDay >= 8) currentWeekDay = 1;
-                if (nonLeap[currentMonth] == startDay) {
-                    startDay = 1;
-                    currentMonth += 1;
-                    if (startMonth <= 12) {
-                        startMonth += 1;
-                    } else {
-                        startMonth = 1;
-                        startYear += 1;
-                    }
-                }
             }
+            startDay = 1;
+            startMonth += 1;
         }
+        startMonth = 1;
+        startYear += 1;
     }
-
-    return currentWeekDay;
 }
 
 int ageTestSet [] = {
@@ -446,7 +443,7 @@ void testDayOfTheWeek()
 int main()
 {
     testAge();
-    //testDayOfTheWeek();
+    testDayOfTheWeek();
     return 0;
 }
 
