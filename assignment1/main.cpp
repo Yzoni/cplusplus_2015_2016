@@ -2,6 +2,13 @@
 
 using namespace std;
 
+int maxDayMonth(int, int);
+int yearsOld(int, int, int, int, int, int);
+int monthsOld(int, int, int, int, int, int);
+int dayOfTheWeek(int, int, int);
+void userAnswerDayOfTheWeek();
+void myTestDayOfTheWeek();
+
 int yearsOld(int currentYear, int currentMonth, int currentDay, int birthYear, int birthMonth, int birthDay) {
     int deltaYear = currentYear - birthYear;
     if (currentMonth > birthMonth) return deltaYear;
@@ -25,37 +32,14 @@ int monthsOld(int currentYear, int currentMonth, int currentDay, int birthYear, 
 }
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
-/*
-    int daynr;
-
-    cout << "Select the weekday by day number\n";
-    cout << "1: monday \n";
-    cout << "2: tuesday \n";
-    cout << "3: wednesday \n";
-    cout << "4: thursday \n";
-    cout << "5: friday \n";
-    cout << "6: saturday \n";
-    cout << "7: sunday \n";
-    cout << "Day (1-7): ";
-    cin >> daynr;
-*/
-    const int nonLeap [13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-    const int leap [13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-    const int *currentLeap;
-
     int currentWeekDay = 2;
     int startYear = 1901;
     int startMonth = 1;
     int startDay = 1;
 
     while (startYear <= birthYear) {
-        if (startYear % 4 == 0) {
-            currentLeap = leap;
-        } else {
-            currentLeap = nonLeap;
-        }
         while (startMonth <= 12) {
-            while (startDay <= currentLeap[startMonth]) {
+            while (startDay <= maxDayMonth(startYear, startMonth)) {
                 if (startDay == birthDay && startMonth == birthMonth && startYear == birthYear) {
                     return currentWeekDay;
                 }
@@ -69,6 +53,81 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
         startMonth = 1;
         startYear += 1;
     }
+}
+
+void userAnswerDayOfTheWeek() {
+    int dayNr;
+    int day;
+    int month;
+    int year;
+
+    cout << "Select the weekday by day number\n";
+    cout << "1: monday \n";
+    cout << "2: tuesday \n";
+    cout << "3: wednesday \n";
+    cout << "4: thursday \n";
+    cout << "5: friday \n";
+    cout << "6: saturday \n";
+    cout << "7: sunday \n";
+    cout << "Day (1-7): ";
+    cin >> dayNr;
+
+    cout << "Set birthday (1-31): ";
+    cin >> day;
+
+    cout << "Set birtmonth (1-12): ";
+    cin >> month;
+
+    cout << "Set birthyear (1901-2099): ";
+    cin >> year;
+
+    int realDayNr = dayOfTheWeek(day, month, year);
+    if (realDayNr == dayNr) {
+        cout << "You are correct the day number is " << realDayNr << endl;
+    }
+    cout << "You were not correct the day number is " << realDayNr << ", your guess was" << dayNr << endl;
+}
+
+void myTestDayOfTheWeek() {
+    srand(1);
+
+    int rYear;
+    int rMonth;
+    int rDay;
+    int rDayOfWeek;
+    int testDayOfWeek;
+
+    int totalAttempts = 1000;
+    int countCorrect = 0;
+    int i = 0;
+
+    while (i < totalAttempts) {
+        rYear = 1901 + rand() % (2099 - 1901 + 1);
+        rMonth = 1 + rand() % 12;
+        rDay = rand() % maxDayMonth(rYear, rMonth);
+        rDayOfWeek = rand() % 7;
+        testDayOfWeek = dayOfTheWeek(rYear, rMonth, rDay);
+
+        if (rDayOfWeek == testDayOfWeek) {
+            countCorrect++;
+        }
+        i++;
+    }
+
+    cout << "myTestDayOfTheWeek: " << countCorrect << "/" << totalAttempts << endl;
+}
+
+int maxDayMonth(int year, int month) {
+    const int nonLeap [13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    const int leap [13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    const int *currentLeap;
+
+    if (year % 4 == 0) {
+        currentLeap = leap;
+    } else {
+        currentLeap = nonLeap;
+    }
+    return currentLeap[month];
 }
 
 int ageTestSet [] = {
@@ -444,6 +503,9 @@ int main()
 {
     testAge();
     testDayOfTheWeek();
+    myTestDayOfTheWeek();
+    userAnswerDayOfTheWeek();
+
     return 0;
 }
 
