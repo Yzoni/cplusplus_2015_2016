@@ -32,8 +32,8 @@ int monthsOld(int currentYear, int currentMonth, int currentDay, int birthYear, 
 }
 
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
-    int currentWeekDay = 2;
-    int startYear = 1901;
+    int currentWeekDay = 1;
+    int startYear = 1900;
     int startMonth = 1;
     int startDay = 1;
 
@@ -81,11 +81,11 @@ void userAnswerDayOfTheWeek() {
     cout << "Set birthyear (1901-2099): ";
     cin >> year;
 
-    int realDayNr = dayOfTheWeek(day, month, year);
+    int realDayNr = dayOfTheWeek(year, month, day);
     if (realDayNr == dayNr) {
         cout << "You are correct the day number is " << realDayNr << endl;
     }
-    cout << "You were not correct the day number is " << realDayNr << ", your guess was" << dayNr << endl;
+    cout << "You were not correct the day number is " << realDayNr << ", your guess was " << dayNr << endl;
 }
 
 void myTestDayOfTheWeek() {
@@ -122,10 +122,14 @@ int maxDayMonth(int year, int month) {
     const int leap [13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     const int *currentLeap;
 
-    if (year % 4 == 0) {
-        currentLeap = leap;
-    } else {
+    if (year == 1900 || year == 2100) {
         currentLeap = nonLeap;
+    } else {
+        if (year % 4 == 0) {
+            currentLeap = leap;
+        } else {
+            currentLeap = nonLeap;
+        }
     }
     return currentLeap[month];
 }
