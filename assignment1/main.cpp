@@ -1,14 +1,24 @@
+/**
+    C++ Assignment 1
+    Date problems
+
+    @author Yorick de Boer
+*/
+
 #include <iostream>
 
 using namespace std;
 
-int maxDayMonth(int, int);
-int yearsOld(int, int, int, int, int, int);
-int monthsOld(int, int, int, int, int, int);
-int dayOfTheWeek(int, int, int);
+int yearsOld(int currentYear, int currentMonth, int currentDay, int birthYear, int birthMonth, int birthDay);
+int monthsOld(int currentYear, int currentMonth, int currentDay, int birthYear, int birthMonth, int birthDay);
+int dayOfTheWeek(int birthYear,int birthMonth,int birthDay);
+int maxDayMonth(int year, int month);
 void userAnswerDayOfTheWeek();
 void myTestDayOfTheWeek();
 
+/**
+ * Determines the age in years
+ */
 int yearsOld(int currentYear, int currentMonth, int currentDay, int birthYear, int birthMonth, int birthDay) {
     int deltaYear = currentYear - birthYear;
     if (currentMonth > birthMonth) return deltaYear;
@@ -16,6 +26,9 @@ int yearsOld(int currentYear, int currentMonth, int currentDay, int birthYear, i
     return deltaYear - 1;
 }
 
+/**
+ * Determines the age in months
+ */
 int monthsOld(int currentYear, int currentMonth, int currentDay, int birthYear, int birthMonth, int birthDay) {
     int partD;
     int dMonths;
@@ -31,6 +44,9 @@ int monthsOld(int currentYear, int currentMonth, int currentDay, int birthYear, 
     return dMonths;
 }
 
+/**
+ * Determines the day of the week expressed in digits 1-7, only works for dates between 1900 and 2100
+ */
 int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
     int currentWeekDay = 1;
     int startYear = 1900;
@@ -53,15 +69,19 @@ int dayOfTheWeek(int birthYear,int birthMonth,int birthDay) {
         startMonth = 1;
         startYear += 1;
     }
+    return -1;
 }
 
+/**
+ * Compares a user input day with the actual day the user was born.
+ */
 void userAnswerDayOfTheWeek() {
     int dayNr;
     int day;
     int month;
     int year;
 
-    cout << "Select the weekday by day number\n";
+    cout << "Select your guess for the weekday you were born by the day number\n";
     cout << "1: monday \n";
     cout << "2: tuesday \n";
     cout << "3: wednesday \n";
@@ -78,16 +98,19 @@ void userAnswerDayOfTheWeek() {
     cout << "Set birtmonth (1-12): ";
     cin >> month;
 
-    cout << "Set birthyear (1901-2099): ";
+    cout << "Set birthyear (1900-2100): ";
     cin >> year;
 
     int realDayNr = dayOfTheWeek(year, month, day);
     if (realDayNr == dayNr) {
-        cout << "You are correct the day number is " << realDayNr << endl;
+        cout << "You are correct the day number was " << realDayNr << endl;
     }
-    cout << "You were not correct the day number is " << realDayNr << ", your guess was " << dayNr << endl;
+    cout << "Your answer was wrong, the day number was " << realDayNr << ", your guess was " << dayNr << endl;
 }
 
+/**
+ * Test for the DayOfTheWeek function. Produces random dates and checks them against the function.
+ */
 void myTestDayOfTheWeek() {
     srand(1);
 
@@ -117,6 +140,9 @@ void myTestDayOfTheWeek() {
     cout << "myTestDayOfTheWeek: " << countCorrect << "/" << totalAttempts << endl;
 }
 
+/**
+ * Returns an array of the maximum amount of days in a month. Takes into account whether the year is a leap year.
+ */
 int maxDayMonth(int year, int month) {
     const int nonLeap [13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     const int leap [13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
