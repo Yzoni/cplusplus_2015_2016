@@ -6,32 +6,22 @@
  */
 
 #include <fstream>
+#include <iostream>
+#include <cstring>
 
 using namespace std;
 
-int decompress(string inputfile, string outputfile);
+int decompress(istream &inStream, ostream &outStream);
 
-int compress(string inputfile, string outputfile);
+int compress(istream &inStream, ostream &outStream);
 
-int compress(string inputfile, string outputfile) {
-    ifstream inStream;
-    ofstream outStream;
-
-    inStream.open(inputfile);
-    if (inStream.fail()) {
-        exit(1);
-    }
-    outStream.open(outputfile);
-    if (outStream.fail()) {
-        exit(1);
-    }
-
+int compress(istream &inStream, ostream &outStream) {
     char previous;
     char next;
     int count = 0;
     inStream.get(next);
     previous = next;
-    while(! inStream.eof()) {
+    while (!inStream.eof()) {
         if (next == previous) {
             count += 1;
         } else {
@@ -57,24 +47,10 @@ int compress(string inputfile, string outputfile) {
         inStream.get(next);
     }
 
-    inStream.close();
-    outStream.close();
-
     return 0;
 }
 
-int decompress(string inputfile, string outputfile) {
-    ifstream inStream;
-    ofstream outStream;
-    inStream.open(inputfile);
-    if (inStream.fail()) {
-        exit(1);
-    }
-    outStream.open(outputfile);
-    if (outStream.fail()) {
-        exit(1);
-    }
-
+int decompress(istream &inStream, ostream &outStream) {
     int tempCount;
     int count = -1;
     bool escapeFlag = false;
@@ -108,15 +84,40 @@ int decompress(string inputfile, string outputfile) {
     }
     outStream << currentChar;
 
-    inStream.close();
-    outStream.close();
-
     return 0;
 }
 
-int main() {
-    compress("/home/yorick/ClionProjects/cmethoden/assignment2/original.txt",
-             "/home/yorick/ClionProjects/cmethoden/assignment2/compressed.txt");
-    decompress("/home/yorick/ClionProjects/cmethoden/assignment2/compressed.txt",
-               "/home/yorick/ClionProjects/cmethoden/assignment2/decompressed.txt");
+
+int main(int argc, char *argv[]) {
+
+    if (argc == 2) {
+        if (strcmp(argv[1], "-h") == 0) {
+            cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
+        } else if (strcmp(argv[1], "-d") == 0) {
+            decompress(cin, cout);
+        } else if (strcmp(argv[1], "-c") == 0) {
+            compress(cin, cout);
+        }
+    } else if (argc == 3) {
+        ifstream inStream;
+        ofstream outStream;
+
+        inStream.open(argv[2]);
+        if (inStream.fail()) {
+            cout << "fail";
+        }
+        outStream.open(argv[3]);
+        if (outStream.fail()) {
+            cout << "fail";
+        }
+        if (strcmp(argv[1], "-c") == 0) {
+            compress(inStream, outStream);
+        } else if (strcmp(argv[1], "-d") == 0) {
+            decompress(inStream, outStream);
+        } else {
+            cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
+        }
+    } else {
+        cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
+    }
 }
