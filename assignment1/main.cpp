@@ -112,7 +112,7 @@ void userAnswerDayOfTheWeek() {
  * Test for the DayOfTheWeek function. Produces random dates and checks them against the function.
  */
 void myTestDayOfTheWeek() {
-    srand(1);
+    srand(time(NULL));
 
     int rYear;
     int rMonth;
@@ -120,15 +120,15 @@ void myTestDayOfTheWeek() {
     int rDayOfWeek;
     int testDayOfWeek;
 
-    int totalAttempts = 1000;
+    int totalAttempts = 10000;
     int countCorrect = 0;
     int i = 0;
 
     while (i < totalAttempts) {
-        rYear = 1901 + rand() % (2099 - 1901 + 1);
+        rYear = 1900 + rand() % (2100 - 1900);
         rMonth = 1 + rand() % 12;
-        rDay = rand() % maxDayMonth(rYear, rMonth);
-        rDayOfWeek = rand() % 7;
+        rDay = 1 + rand() % maxDayMonth(rYear, rMonth);
+        rDayOfWeek = 1 + rand() % 7;
         testDayOfWeek = dayOfTheWeek(rYear, rMonth, rDay);
 
         if (rDayOfWeek == testDayOfWeek) {
