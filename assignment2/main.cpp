@@ -54,31 +54,31 @@ int decompress(istream &inStream, ostream &outStream) {
     int tempCount;
     int count = -1;
     bool escapeFlag = false;
-    char lastChar;
+    char lastRealChar;
     char currentChar;
 
     inStream.get(currentChar);
-    lastChar = currentChar;
+    lastRealChar = currentChar;
     while (!inStream.eof()) {
         if (currentChar >= '0' && currentChar <= '9' && !escapeFlag) {
             escapeFlag = false;
             tempCount = count;
-            count = currentChar - '0'; // Convert back to integer
+            count = currentChar - '0'; // Convert char to integer value
             if (tempCount > 0) {
                 count = (tempCount * 10) + count;
             }
         } else if (currentChar == '\\' and !escapeFlag) {
             escapeFlag = true;
         } else {
-            escapeFlag = false;
             if (count > 0) {
                 count--;
             }
             for (int i = -1; i < count; i++) {
-                outStream << lastChar;
+                outStream << lastRealChar;
             }
+            escapeFlag = false;
             count = 0;
-            lastChar = currentChar;
+            lastRealChar = currentChar;
         }
         inStream.get(currentChar);
     }
@@ -90,7 +90,10 @@ int decompress(istream &inStream, ostream &outStream) {
 
 int main(int argc, char *argv[]) {
 
-    if (argc == 2) {
+    if (argc < 2) {
+        cout << "Too few arguments. \n";
+        cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
+    } else if (argc == 2) {
         if (strcmp(argv[1], "-h") == 0) {
             cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
         } else if (strcmp(argv[1], "-d") == 0) {
@@ -98,17 +101,17 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[1], "-c") == 0) {
             compress(cin, cout);
         }
-    } else if (argc == 3) {
+    } else if (argc == 4) {
         ifstream inStream;
         ofstream outStream;
 
         inStream.open(argv[2]);
         if (inStream.fail()) {
-            cout << "fail";
+            cout << "In stream failed";
         }
         outStream.open(argv[3]);
         if (outStream.fail()) {
-            cout << "fail";
+            cout << "Out stream failed";
         }
         if (strcmp(argv[1], "-c") == 0) {
             compress(inStream, outStream);
@@ -118,6 +121,7 @@ int main(int argc, char *argv[]) {
             cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
         }
     } else {
+        cout << "Too many arguments. \n";
         cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
     }
 }
