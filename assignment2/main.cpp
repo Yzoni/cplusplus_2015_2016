@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
             cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
         }
     } else {
-        cout << "Too many arguments. \n";
+        cout << "Invalid amount of arguments. \n";
         cout << "MyCompress <flag> [<input-filename>] [<output-filename>] \n";
     }
 }
