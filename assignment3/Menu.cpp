@@ -1,3 +1,7 @@
+//
+// Yorick de Boer (10786015)
+//
+
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -37,14 +41,17 @@ void Menu::onOpenWorldFile(World &world) {
     world.killAllCells();
 
     ifstream inStream;
-//    char input_file_name[1024];
-//    cout << "Give path to world: ";
-//    cin >> input_file_name;
-    inStream.open("/home/yorick/ClionProjects/cmethoden/assignment3/res/gliderGun.txt");
+    char input_file_name[1024];
+    cout << "Give path to world: ";
+    cin >> input_file_name;
+    inStream.open(input_file_name);
     if (inStream.fail()) {
-        cout << "In stream failed";
+        cout << "In stream failed \n";
+        cout << "Generating random world... \n";
+        world.genereateRandomWorld(world.getRandomrobability());
+    } else {
+        world.loadFromFile(inStream);
     }
-    world.loadFromFile(inStream);
 }
 
 void Menu::onShowMoveSubmmenu(std::ostream &ofStream) {
@@ -106,16 +113,16 @@ int Menu::getMoveMenuInput(World &world, std::ostream &ofStream) {
 
     switch (command) {
         case 'r':
-            world.moveViewRight(1);
+            world.moveViewRight(world.getXStepSize());
             return 0;
         case 'l':
-            world.moveViewLeft(1);
+            world.moveViewLeft(world.getXStepSize());
             return 0;
         case 'u':
-            world.moveViewUp(1);
+            world.moveViewUp(world.getYStepSize());
             return 0;
         case 'd':
-            world.moveViewDown(1);
+            world.moveViewDown(world.getYStepSize());
             return 0;
         default:
             ofStream << "Invalid command";
@@ -142,9 +149,12 @@ int Menu::getParameterMenuInput(World &world, std::ostream &ofStream) {
             world.setViewMoveStepSizeY(new_step_size_y);
             return 0;
         case 'p':
-            unsigned new_prob_alive;
+            int new_prob_alive;
             ofStream << "Set probability of alive cell: ";
             cin >> new_prob_alive;
+            if (cin.fail()) {
+                cout << "Input is not a number \n";
+            }
             world.setRandomProbability(new_prob_alive);
             return 0;
         case 'd':

@@ -1,5 +1,5 @@
 //
-// Yorick de Boer
+// Yorick de Boer (10786015)
 //
 
 #include <fstream>
@@ -110,6 +110,7 @@ void World::getCurrentDisplayWorld(ostream &ofStream) {
         }
         ofStream << endl;
     }
+    ofStream << endl;
 }
 
 void World::loadFromFile(istream &inStream) {
@@ -165,7 +166,6 @@ bool World::coorIsInView(int xView, int yView) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -197,13 +197,13 @@ void World::setViewMoveStepSizeX(int stepSize) {
     }
 }
 
-void World::setRandomProbability(unsigned prob) {
+void World::setRandomProbability(int prob) {
     if (prob >= 0 && prob <= 100) {
         random_prob_ = prob;
     }
 }
 
-unsigned World::getRandomrobability() {
+int World::getRandomrobability() {
     return random_prob_;
 }
 

@@ -1,3 +1,7 @@
+//
+// Yorick de Boer (10786015)
+//
+
 #ifndef CMETHODEN_WORLD_H
 #define CMETHODEN_WORLD_H
 
@@ -6,37 +10,53 @@ class World {
 public:
     World();
 
+    // Kill all the cells in the main world
     void killAllCells();
 
+    // Copies the temporary world to the main world
     void update();
 
+    // Gets the full world and puts it in standard output
     void getCurrentFullWorld(std::ostream &ofStream);
 
+    // Gets the only the world in the current display
     void getCurrentDisplayWorld(std::ostream &ofStream);
 
+    // Loads a world from a file from standard input
     void loadFromFile(std::istream &inStream);
 
+    // Generates a random world using the the BasicLCG algorithm
     void genereateRandomWorld(unsigned probability);
 
+    // Set the character to use to represent a death cell
     void setDeathCharacter(char character);
 
+    // Set the character to use to represent an alive cell
     void setAliveCharacter(char character);
 
+    // Move view right
     void moveViewRight(int stepSize);
 
+    // Move view left
     void moveViewLeft(int stepSize);
 
+    // Move view up
     void moveViewUp(int stepSize);
 
+    // Move view down
     void moveViewDown(int stepSize);
 
+    // Change the horizontal stepsize where the view moves by
     void setViewMoveStepSizeY(int stepSize);
 
+    // Change the vertical stepsize where the view moves by
     void setViewMoveStepSizeX(int stepSize);
 
-    void setRandomProbability(unsigned int prob);
+    // Set the probability of a cell spawning as alive in the random function
+    void setRandomProbability(int prob);
 
-    unsigned int getRandomrobability();
+    // Getter for the probability that a cell spawns as alive
+    int getRandomrobability();
 
     int getXViewCoor();
 
@@ -53,7 +73,7 @@ private:
     int size_y_;
     char death_char_;
     char alive_char_;
-    unsigned random_prob_;
+    int random_prob_;
 
     // VIEW
     int coor_x_view_;

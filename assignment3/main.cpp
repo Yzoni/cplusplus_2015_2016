@@ -1,11 +1,11 @@
 //
-// Yorick de Boer
+// Yorick de Boer (10786015)
 //
+
 #include <fstream>
 #include <iostream>
 #include "World.h"
 #include "Menu.h"
-#include "BasicLCG.h"
 
 using namespace std;
 
@@ -16,7 +16,6 @@ void init(World &world, Menu &menu) {
 int main(int argc, char *argv[]) {
     World world;
     Menu menu;
-    BasicLCG customRand;
 
     init(world, menu);
 

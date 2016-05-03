@@ -1,5 +1,5 @@
 //
-// Yorick de Boer
+// Yorick de Boer (10786015)
 //
 
 #ifndef CMETHODEN_MENU_H
