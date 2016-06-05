@@ -8,8 +8,8 @@
 #include "Number.h"
 
 class SmallNumber : public Number {
-public:
 
+public:
     SmallNumber();
 
     SmallNumber(string s);
@@ -27,11 +27,9 @@ public:
     Number *operator*(const Number *n);
 
 protected:
-
     void print(std::ostream &os) const;
 
 private:
-
     int number;
 };
 

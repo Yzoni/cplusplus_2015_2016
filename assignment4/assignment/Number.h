@@ -1,7 +1,3 @@
-//
-// Created by yorick on 27-4-16.
-//
-
 #ifndef CMETHODEN_NUMBER_H
 #define CMETHODEN_NUMBER_H
 
