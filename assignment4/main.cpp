@@ -6,7 +6,6 @@
 #include <LargeNumber.h>
 
 int main(int argc, char **argv) {
-
 //    DoublyLinkedList *doublyLinkedList = new DoublyLinkedList();
 //    doublyLinkedList->insertHead(4);
 //    doublyLinkedList->insertHead(5);
@@ -25,8 +24,9 @@ int main(int argc, char **argv) {
 //        currentItem = doublyLinkedList->getPrevItem(currentItem);
 //    }
 //
-//    LargeNumber *largeNumber = new LargeNumber("1234567");
+//    LargeNumber *largeNumber = new LargeNumber("12340005");
 //    cout << largeNumber << endl;
+//    largeNumber->printArray();
 //    delete largeNumber;
 //
 //    SmallNumber *testEquals1 = new SmallNumber("12345679");
@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
     /*
      * TEST EQUAL
      */
-//    LargeNumber *testEqual1 = new LargeNumber("12334");
-//    LargeNumber *testEqual2 = new LargeNumber("12334");
+//    LargeNumber *testEqual1 = new LargeNumber("1235");
+//    LargeNumber *testEqual2 = new LargeNumber("12350");
 //    if (*testEqual1 == testEqual2) {
 //        cout << "equal" << endl;
 //    } else {
@@ -55,12 +55,13 @@ int main(int argc, char **argv) {
     /*
      * TEST PLUSPLUS
      */
-    LargeNumber *plusplus = new LargeNumber("99999998");
-    plusplus->printArray();
+    LargeNumber *plusplus = new LargeNumber("9999");
+//    plusplus->printArray();
     (*plusplus)++;
-    plusplus->printArray();
+    cout << plusplus << endl;
     (*plusplus)++;
-    plusplus->printArray();
+    cout << plusplus << endl;
+//    plusplus->printArray();
     /*
      * TEST SUM
      */

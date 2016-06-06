@@ -8,7 +8,7 @@
 #include <string>
 
 typedef struct LinkedItem {
-    std::string carry;
+    int carry;
     LinkedItem *prev;
     LinkedItem *next;
 } LinkedItem;
@@ -21,9 +21,9 @@ public:
 
     bool isEmpty();
 
-    void insertTail(std::string value);
+    void insertTail(int value);
 
-    void insertHead(std::string value);
+    void insertHead(int value);
 
     LinkedItem *getHead() const;
 

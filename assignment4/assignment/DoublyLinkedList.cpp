@@ -14,15 +14,15 @@ DoublyLinkedList::DoublyLinkedList() {
 }
 
 DoublyLinkedList::~DoublyLinkedList() {
-    delete head;
-    delete tail;
+//    delete head;
+//    delete tail;
 }
 
 bool DoublyLinkedList::isEmpty() {
     return (head == NULL);
 }
 
-void DoublyLinkedList::insertTail(std::string value) {
+void DoublyLinkedList::insertTail(int value) {
     LinkedItem *linkedItem = new LinkedItem();
     linkedItem->carry = value;
 
@@ -39,7 +39,7 @@ void DoublyLinkedList::insertTail(std::string value) {
     }
 }
 
-void DoublyLinkedList::insertHead(std::string value) {
+void DoublyLinkedList::insertHead(int value) {
     LinkedItem *linkedItem = new LinkedItem();
     linkedItem->carry = value;
 
