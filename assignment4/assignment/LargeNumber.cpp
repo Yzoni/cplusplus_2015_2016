@@ -81,27 +81,26 @@ void LargeNumber::operator++(int) {
     DoublyLinkedList &num = this->doublyLinkedList;
     LinkedItem *currentItem = num.getHead();
 
-    bool carryOver = false;
+    // First ++ is 1
+    int carryOver = 1;
     bool addExtra = false;
 
-    currentItem->carry += 1;
     while (currentItem != NULL) {
-        if (carryOver) {
-            currentItem->carry++;
-            carryOver = false;
-            continue;
-        }
+        currentItem->carry += carryOver;
+
         if (digitOverflow(currentItem->carry)) {
             currentItem->carry -= pow(10, k);
-            carryOver = true;
-
+            carryOver = 1;
             // Add the extra one in front if necessary
             if (currentItem->prev == NULL) {
-                addExtra = true;
+                addExtra = 1;
             }
+        } else {
+            carryOver = 0;
         }
         currentItem = num.getPrevItem(currentItem);
     }
+
     if (addExtra) {
         num.insertTail(1);
     }
@@ -116,7 +115,7 @@ Number *LargeNumber::operator+(const Number *n) {
     LinkedItem *currentItemLeft = num_left.getHead();
     LinkedItem *currentItemRight = num_right.getHead();
 
-    bool carryOver = false;
+    int carryOver = 0;
     bool addExtra = false;
 
     int betweenResult;
@@ -125,13 +124,13 @@ Number *LargeNumber::operator+(const Number *n) {
 
         if (digitOverflow(betweenResult)) {
             betweenResult -= pow(10, k);
-            carryOver = true;
+            carryOver = 1;
             // Add the extra one in front if necessary
             if (currentItemLeft->prev == NULL || currentItemRight->prev == NULL) {
-                addExtra = true;
+                addExtra = 1;
             }
         } else {
-            carryOver = false;
+            carryOver = 0;
         }
 
         result->insertTail(betweenResult);

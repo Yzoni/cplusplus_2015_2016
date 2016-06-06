@@ -55,20 +55,20 @@ int main(int argc, char **argv) {
     /*
      * TEST PLUSPLUS
      */
-//    LargeNumber *plusplus = new LargeNumber("100099999");
-//    (*plusplus)++;
-//    cout << plusplus << endl;
-//    (*plusplus)++;
-//    cout << plusplus << endl;
-//    delete plusplus;
+    LargeNumber *plusplus = new LargeNumber("9293239048234800399399993902003993999999");
+    (*plusplus)++;
+    cout << plusplus << endl;
+    (*plusplus)++;
+    cout << plusplus << endl;
+    delete plusplus;
     /*
      * TEST SUM
      */
-    LargeNumber *plus1 = new LargeNumber("8888");
-    LargeNumber *plus2 = new LargeNumber("999");
-    cout << 1 << " " << "0009" << " " << 9999 << endl;
-    cout << (*plus1) + plus2 << endl;
-    static_cast<LargeNumber *>((*plus1) + plus2)->printArray();
+//    LargeNumber *plus1 = new LargeNumber("8888");
+//    LargeNumber *plus2 = new LargeNumber("999");
+//    cout << 1 << " " << "0009" << " " << 9999 << endl;
+//    cout << (*plus1) + plus2 << endl;
+//    static_cast<LargeNumber *>((*plus1) + plus2)->printArray();
 //    if (argc < 2) {
 //        cout << "Computes the n-th fibonacci and factorial." << endl;
 //        cout << "usage: " << argv[0] << " <n>" << endl;
