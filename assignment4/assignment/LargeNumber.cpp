@@ -94,6 +94,8 @@ void LargeNumber::operator++(int) {
         if (digitOverflow(currentItem->carry)) {
             currentItem->carry -= pow(10, k);
             carryOver = true;
+
+            // Add the extra one in front if necessary
             if (currentItem->prev == NULL) {
                 addExtra = true;
             }
@@ -103,71 +105,6 @@ void LargeNumber::operator++(int) {
     if (addExtra) {
         num.insertTail(1);
     }
-
-//    int integer;
-//    int betweenResult;
-//    bool carryOver = false;
-//    bool addExtra = false;
-//
-//    istringstream(currentItem->carry) >> integer;
-//    betweenResult = integer + 1;
-//
-//    char str[15];
-//    sprintf(str, "%d", betweenResult);
-//    currentItem->carry = str;
-//
-//    if (betweenResult >= pow(10, k + 1)) {
-//        carryOver = true;
-//        betweenResult = betweenResult - pow(10, k + 1);
-//
-//        if (betweenResult == 0) {
-//            stringstream ss;
-//            for (int i = 0; i <= k; ++i) {
-//                ss << "0";
-//            }
-//            currentItem->carry = ss.str();
-//            ss.str("");
-//        } else {
-//            sprintf(str, "%d", betweenResult);
-//            currentItem->carry = str;
-//        }
-//    }
-//    currentItem = num.getPrevItem(currentItem);
-//    while (currentItem != NULL) {
-//        if (carryOver) {
-//            carryOver = false;
-//            istringstream(currentItem->carry) >> integer;
-//            betweenResult = integer + 1;
-//
-//            sprintf(str, "%d", betweenResult);
-//            currentItem->carry = str;
-//
-//            if (currentItem->prev == NULL) {
-//                addExtra = true;
-//            }
-//
-//            if (betweenResult >= pow(10, k + 1)) {
-//                carryOver = true;
-//                betweenResult = betweenResult - pow(10, k + 1);
-//
-//                if (betweenResult == 0) {
-//                    stringstream ss;
-//                    for (int i = 0; i <= k; ++i) {
-//                        ss << "0";
-//                    }
-//                    currentItem->carry = ss.str();
-//                    ss.str("");
-//                } else {
-//                    sprintf(str, "%d", betweenResult);
-//                    currentItem->carry = str;
-//                }
-//            }
-//        }
-//        currentItem = num.getPrevItem(currentItem);
-//    }
-//    if (addExtra) {
-//        num.insertTail("1");
-//    }
 }
 
 Number *LargeNumber::operator+(const Number *n) {
@@ -176,39 +113,40 @@ Number *LargeNumber::operator+(const Number *n) {
 
     DoublyLinkedList *result = new DoublyLinkedList();
 
-//    LinkedItem *currentItemLeft = num_left.getHead();
-//    LinkedItem *currentItemRight = num_right.getHead();
-//
-//
-//    int integerL;
-//    int integerR;
-//    int betweenResult;
-//
-//    bool carryOver = false;
-//    while (currentItemLeft != NULL && currentItemRight != NULL) {
-//        istringstream(currentItemLeft->carry) >> integerL;
-//        istringstream(currentItemRight->carry) >> integerR;
-//
-//        betweenResult = integerL + integerR;
-//        if (carryOver) {
-//            betweenResult++;
-//        }
-//
-//        if (digitOverflow(betweenResult)) {
-//            betweenResult = 0;
-//            carryOver = true;
-//        }
-//
-////        result->insertHead(betweenResult);
-//
-//        currentItemLeft = num_left.getPrevItem(currentItemLeft);
-//        currentItemRight = num_right.getPrevItem(currentItemRight);
-//    }
-//
-//    LargeNumber *largeNumber = new LargeNumber();
-//    largeNumber->doublyLinkedList = *result;
-//
-//    return largeNumber;
+    LinkedItem *currentItemLeft = num_left.getHead();
+    LinkedItem *currentItemRight = num_right.getHead();
+
+    bool carryOver = false;
+    bool addExtra = false;
+
+    int betweenResult;
+    while (currentItemLeft != NULL && currentItemRight != NULL) {
+        betweenResult = currentItemLeft->carry + currentItemRight->carry + carryOver;
+
+        if (digitOverflow(betweenResult)) {
+            betweenResult -= pow(10, k);
+            carryOver = true;
+            // Add the extra one in front if necessary
+            if (currentItemLeft->prev == NULL || currentItemRight->prev == NULL) {
+                addExtra = true;
+            }
+        } else {
+            carryOver = false;
+        }
+
+        result->insertTail(betweenResult);
+
+        currentItemLeft = num_left.getPrevItem(currentItemLeft);
+        currentItemRight = num_right.getPrevItem(currentItemRight);
+    }
+    if (addExtra) {
+        result->insertTail(1);
+    }
+
+    LargeNumber *largeNumber = new LargeNumber();
+    largeNumber->doublyLinkedList = *result;
+
+    return largeNumber;
 }
 
 Number *LargeNumber::operator*(const Number *n) {
@@ -220,6 +158,7 @@ void LargeNumber::print(std::ostream &os) const {
 
     while (currentItem != NULL) {
         os << currentItem->carry << std::setfill('0') << std::setw(k);
+//        os << " ";
         currentItem = doublyLinkedList.getNextItem(currentItem);
     }
 }
