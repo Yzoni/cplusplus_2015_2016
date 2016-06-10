@@ -1,5 +1,5 @@
 //
-// Created by yorick on 14-5-16.
+// -- TAIL <--> ITEM <--> HEAD --
 //
 
 #ifndef ASSIGNMENT4_DOUBLYLINKEDLIST_H
@@ -33,10 +33,11 @@ public:
 
     LinkedItem *getPrevItem(LinkedItem *linkedItem) const;
 
+    int size();
+
 private:
     LinkedItem *head;
     LinkedItem *tail;
-
 };
 
 

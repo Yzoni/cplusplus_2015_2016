@@ -106,38 +106,65 @@ void LargeNumber::operator++(int) {
     }
 }
 
+/*
+ * TOP
+ * BOTTOM +
+ * --------
+ * RESULT
+ */
 Number *LargeNumber::operator+(const Number *n) {
-    DoublyLinkedList num_left = static_cast<const LargeNumber *>(n)->doublyLinkedList; // cast required to access "number"
-    DoublyLinkedList num_right = this->doublyLinkedList;
+    DoublyLinkedList numTop = static_cast<const LargeNumber *>(n)->doublyLinkedList; // cast required to access "number"
+    DoublyLinkedList numBottom = this->doublyLinkedList;
 
     DoublyLinkedList *result = new DoublyLinkedList();
 
-    LinkedItem *currentItemLeft = num_left.getHead();
-    LinkedItem *currentItemRight = num_right.getHead();
+    // Check if bottom is largest number, if not swap pointers
+    if (numTop.size() > numBottom.size()) {
+        swap(numTop, numBottom);
+    }
+
+    // Copy the bottom values to result
+    LinkedItem *currentBottom = numBottom.getHead();
+    while (currentBottom != NULL) {
+        result->insertTail(currentBottom->carry);
+        currentBottom = numBottom.getPrevItem(currentBottom);
+    }
+
+    // Plus with the bottom value
+    LinkedItem *currentTop = numBottom.getHead();
+    LinkedItem *currentResult = result->getHead();
 
     int carryOver = 0;
     bool addExtra = false;
+    int currentTopCarry;
+    while (currentResult != NULL) {
 
-    int betweenResult;
-    while (currentItemLeft != NULL && currentItemRight != NULL) {
-        betweenResult = currentItemLeft->carry + currentItemRight->carry + carryOver;
+        // If top number reached end
+        if (currentTop == NULL) {
+            currentTopCarry = 0;
+        } else {
+            currentTopCarry = currentTop->carry;
+        }
+        currentResult->carry += currentTopCarry + carryOver;
 
-        if (digitOverflow(betweenResult)) {
-            betweenResult -= pow(10, k);
+        if (digitOverflow(currentResult->carry)) {
+            currentResult->carry -= pow(10, k);
             carryOver = 1;
             // Add the extra one in front if necessary
-            if (currentItemLeft->prev == NULL || currentItemRight->prev == NULL) {
+            if (currentResult->prev == NULL) {
                 addExtra = 1;
             }
         } else {
             carryOver = 0;
         }
 
-        result->insertTail(betweenResult);
-
-        currentItemLeft = num_left.getPrevItem(currentItemLeft);
-        currentItemRight = num_right.getPrevItem(currentItemRight);
+        // If bottom number reached end
+        if (currentTop != NULL) {
+            currentTop = numTop.getPrevItem(currentTop);
+        }
+        currentResult = result->getPrevItem(currentResult);
     }
+
     if (addExtra) {
         result->insertTail(1);
     }
@@ -148,8 +175,78 @@ Number *LargeNumber::operator+(const Number *n) {
     return largeNumber;
 }
 
+/*
+ * TOP
+ * BOTTOM *
+ * --------
+ * RESULT
+ */
 Number *LargeNumber::operator*(const Number *n) {
-    return NULL;
+    DoublyLinkedList numTop = static_cast<const LargeNumber *>(n)->doublyLinkedList; // cast required to access "number"
+    DoublyLinkedList numBottom = this->doublyLinkedList;
+
+    DoublyLinkedList *result = new DoublyLinkedList();
+
+    // Check if bottom is largest number
+    if (numTop.size() > numBottom.size()) {
+        swap(numTop, numBottom);
+    }
+
+    // Plus with the bottom value
+    LinkedItem *currentBottom = numBottom.getHead();
+
+    int carryOver = 0;
+    bool addExtra = false;
+    int currentTopCarry;
+    while (currentBottom != NULL) {
+
+        LinkedItem *currentTop = numTop.getHead();
+        int count = 0;
+        LargeNumber *betweenResult = new LargeNumber();
+        while (currentTop != NULL) {
+            int zeros = pow(10, (k * count));
+            ostringstream convert;   // stream used for the conversion
+            convert << (currentTop->carry *
+                        zeros);      // insert the textual representation of 'Number' in the characters in the stream
+            LargeNumber *betweenResultPart = new LargeNumber(convert.str());
+            betweenResult = static_cast<LargeNumber *>((*betweenResult) + betweenResultPart);
+            currentTop = numTop.getPrevItem(currentTop);
+        }
+
+//        // If bottom number reached end
+//        if (currentTop == NULL) {
+//            currentTopCarry = 0;
+//        } else {
+//            currentTopCarry = currentTop->carry;
+//        }
+//        currentResult->carry += currentTopCarry + carryOver;
+//
+//        if (digitOverflow(currentResult->carry)) {
+//            currentResult->carry -= pow(10, k);
+//            carryOver = 1;
+//            // Add the extra one in front if necessary
+//            if (currentResult->prev == NULL) {
+//                addExtra = 1;
+//            }
+//        } else {
+//            carryOver = 0;
+//        }
+//
+//        // If bottom number reached end
+//        if (currentTop != NULL) {
+//            currentTop = numTop.getPrevItem(currentTop);
+//        }
+//        currentBottom = result->getPrevItem(currentResult);
+    }
+
+    if (addExtra) {
+        result->insertTail(1);
+    }
+
+    LargeNumber *largeNumber = new LargeNumber();
+    largeNumber->doublyLinkedList = *result;
+
+    return largeNumber;
 }
 
 void LargeNumber::print(std::ostream &os) const {

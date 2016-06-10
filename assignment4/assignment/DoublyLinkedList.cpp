@@ -22,6 +22,20 @@ bool DoublyLinkedList::isEmpty() {
     return (head == NULL);
 }
 
+int DoublyLinkedList::size() {
+    if (isEmpty()) {
+        return 0;
+    } else {
+        LinkedItem *item = this->getHead();
+        int count = 0;
+        while (item != NULL) {
+            count++;
+            item = this->getPrevItem(item);
+        }
+        return count;
+    }
+}
+
 void DoublyLinkedList::insertTail(int value) {
     LinkedItem *linkedItem = new LinkedItem();
     linkedItem->carry = value;
