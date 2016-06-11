@@ -46,3 +46,24 @@ Number *Math::factorial(Number *n) {
     delete i;
     return result;
 }
+
+Number *Math::permutationNoRepetition(Number *n, Number *k) {
+    Number *result = n->factoryMethod("0");
+    (*k)++;
+    result = *result + k;
+    while (*n != k) {
+        (*k)++;
+        result = (*result) * k;
+    }
+    return result;
+}
+
+Number *Math::permutationWithRepetition(Number *n, Number *k) {
+    Number *result = n->factoryMethod("1");
+    for (Number *i = k->factoryMethod("0"); (*i) != k; (*i)++) {
+        cout << result << endl;
+        result = *result * n;
+    }
+
+    return result;
+}

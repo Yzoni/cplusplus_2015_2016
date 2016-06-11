@@ -9,6 +9,9 @@ public:
 
     static Number *factorial(Number *n);
 
+    static Number *permutationNoRepetition(Number *n, Number *r);
+
+    static Number *permutationWithRepetition(Number *n, Number *k);
 };
 
 

@@ -4,6 +4,7 @@
 
 #include <DoublyLinkedList.h>
 #include <LargeNumber.h>
+#include <Math.h>
 
 int main(int argc, char **argv) {
 //    DoublyLinkedList *doublyLinkedList = new DoublyLinkedList();
@@ -72,17 +73,40 @@ int main(int argc, char **argv) {
     /*
      * TEST MULTIPLY
      */
-    LargeNumber *plus1 = new LargeNumber("83493405");
-    LargeNumber *plus2 = new LargeNumber("3333");
-    cout << (*plus1) * plus2 << endl;
+//    LargeNumber *plus1 = new LargeNumber("83493405");
+//    LargeNumber *plus2 = new LargeNumber("3333");
+//    cout << (*plus1) * plus2 << endl;
 //    static_cast<LargeNumber *>((*plus1) + plus2)->printArray();
 //    if (argc < 2) {
 //        cout << "Computes the n-th fibonacci and factorial." << endl;
 //        cout << "usage: " << argv[0] << " <n>" << endl;
 //        exit(0);
 //    }
+
+    //EXTRA 1
+//    LargeNumber n("96");
+//    LargeNumber k("45");
+//    Number *fib = Math::permutationNoRepetition(&n, &k);
+//    cout << fib << endl;
+
+//    LargeNumber n("16");
+//    LargeNumber k("13");
+//    Number *fib = Math::permutationNoRepetition(&n, &k);
+//    cout << fib << endl;
 //
-//    //LargeNumber n(argv[1]);
+
+    //EXTRA 2
+//    LargeNumber n("10");
+//    LargeNumber k("3");
+//    Number *fib = Math::permutationWithRepetition(&n, &k);
+//    cout << fib << endl;
+
+    LargeNumber n("91");
+    LargeNumber k("46");
+    Number *fib = Math::permutationWithRepetition(&n, &k);
+    cout << fib << endl;
+
+//    LargeNumber n("200");
 //    SmallNumber n(argv[1]);
 //
 //    Number *fib = Math::fibonacci(&n);

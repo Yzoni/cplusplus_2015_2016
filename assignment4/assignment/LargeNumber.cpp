@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const bool DEBUG = true;
+const bool DEBUG = false;
 const int k = 4;
 
 LargeNumber::LargeNumber() {
@@ -218,8 +218,10 @@ Number *LargeNumber::operator*(const Number *n) {
 
             currentTop = numTop.getPrevItem(currentTop);
             countTop += 1;
+            delete betweenResultPart;
         }
         result = static_cast<LargeNumber *>((*result) + betweenResult);
+        delete betweenResult;
         currentBottom = numBottom.getPrevItem(currentBottom);
         countBottom += 1;
     }
@@ -231,7 +233,6 @@ void LargeNumber::print(std::ostream &os) const {
 
     while (currentItem != NULL) {
         os << currentItem->carry << std::setfill('0') << std::setw(k);
-//        os << " ";
         currentItem = doublyLinkedList.getNextItem(currentItem);
     }
 }
@@ -244,17 +245,6 @@ bool LargeNumber::digitOverflow(int d1) {
     } while (d1);
 
     return number_of_digits_d1 > k;
-}
-
-void LargeNumber::printArray() {
-    DoublyLinkedList &num = this->doublyLinkedList;
-    LinkedItem *currentItem = num.getTail();
-
-    while (currentItem != NULL) {
-        cout << currentItem->carry << " => ";
-        currentItem = num.getNextItem(currentItem);
-    }
-    cout << endl;
 }
 
 

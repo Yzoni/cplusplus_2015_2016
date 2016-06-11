@@ -86,11 +86,21 @@ TEST(large_number_check__Test, multiply_single_overflow) {
     EXPECT_EQ(ss.str(), "2929707");
 }
 
-TEST(large_number_check__Test, multiply_multiple_overflow) {
-    LargeNumber *plus1 = new LargeNumber("932048092384");
-    LargeNumber *plus2 = new LargeNumber("2348230948309");
+TEST(large_number_check__Test, multiply_single_inverse) {
+    LargeNumber *plus1 = new LargeNumber("9999");
+    LargeNumber *plus2 = new LargeNumber("293");
     stringstream ss;
     ss << (*plus1) * plus2;
 
-    EXPECT_EQ(ss.str(), "2188664175848474760578656");
+    EXPECT_EQ(ss.str(), "2929707");
+}
+
+
+TEST(large_number_check__Test, multiply_multiple_overflow) {
+    LargeNumber *plus1 = new LargeNumber("9320480923849230483094823");
+    LargeNumber *plus2 = new LargeNumber("2348230948309234234");
+    stringstream ss;
+    ss << (*plus1) * plus2;
+
+    EXPECT_EQ(ss.str(), "21886641758508606085386383307111481539770582");
 }
