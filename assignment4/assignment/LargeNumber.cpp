@@ -4,7 +4,6 @@
 #include <string>
 #include <cmath>
 #include <algorithm>
-#include <cstdio>
 #include "LargeNumber.h"
 
 using namespace std;
@@ -131,7 +130,7 @@ Number *LargeNumber::operator+(const Number *n) {
     }
 
     // Plus with the bottom value
-    LinkedItem *currentTop = numBottom.getHead();
+    LinkedItem *currentTop = numTop.getHead();
     LinkedItem *currentResult = result->getHead();
 
     int carryOver = 0;
@@ -185,68 +184,46 @@ Number *LargeNumber::operator*(const Number *n) {
     DoublyLinkedList numTop = static_cast<const LargeNumber *>(n)->doublyLinkedList; // cast required to access "number"
     DoublyLinkedList numBottom = this->doublyLinkedList;
 
-    DoublyLinkedList *result = new DoublyLinkedList();
-
     // Check if bottom is largest number
     if (numTop.size() > numBottom.size()) {
         swap(numTop, numBottom);
     }
 
-    // Plus with the bottom value
     LinkedItem *currentBottom = numBottom.getHead();
-
-    int carryOver = 0;
-    bool addExtra = false;
-    int currentTopCarry;
+    LargeNumber *result = new LargeNumber();
+    int countBottom = 0;
+    int countTop = 0;
+    int zerosTop;
+    int zerosBottom;
+    int between;
     while (currentBottom != NULL) {
-
+        zerosBottom = k * countBottom;
         LinkedItem *currentTop = numTop.getHead();
-        int count = 0;
         LargeNumber *betweenResult = new LargeNumber();
+        countTop = 0;
         while (currentTop != NULL) {
-            int zeros = pow(10, (k * count));
+            zerosTop = k * countTop;
+            between = currentTop->carry * currentBottom->carry;
             ostringstream convert;   // stream used for the conversion
-            convert << (currentTop->carry *
-                        zeros);      // insert the textual representation of 'Number' in the characters in the stream
+            convert << (between);      // insert the textual representation of 'Number' in the characters in the stream
+            for (int i = 0; i < zerosTop; ++i) {
+                convert << "0";
+            }
+            for (int i = 0; i < zerosBottom; ++i) {
+                convert << "0";
+            }
             LargeNumber *betweenResultPart = new LargeNumber(convert.str());
+
             betweenResult = static_cast<LargeNumber *>((*betweenResult) + betweenResultPart);
+
             currentTop = numTop.getPrevItem(currentTop);
+            countTop += 1;
         }
-
-//        // If bottom number reached end
-//        if (currentTop == NULL) {
-//            currentTopCarry = 0;
-//        } else {
-//            currentTopCarry = currentTop->carry;
-//        }
-//        currentResult->carry += currentTopCarry + carryOver;
-//
-//        if (digitOverflow(currentResult->carry)) {
-//            currentResult->carry -= pow(10, k);
-//            carryOver = 1;
-//            // Add the extra one in front if necessary
-//            if (currentResult->prev == NULL) {
-//                addExtra = 1;
-//            }
-//        } else {
-//            carryOver = 0;
-//        }
-//
-//        // If bottom number reached end
-//        if (currentTop != NULL) {
-//            currentTop = numTop.getPrevItem(currentTop);
-//        }
-//        currentBottom = result->getPrevItem(currentResult);
+        result = static_cast<LargeNumber *>((*result) + betweenResult);
+        currentBottom = numBottom.getPrevItem(currentBottom);
+        countBottom += 1;
     }
-
-    if (addExtra) {
-        result->insertTail(1);
-    }
-
-    LargeNumber *largeNumber = new LargeNumber();
-    largeNumber->doublyLinkedList = *result;
-
-    return largeNumber;
+    return result;
 }
 
 void LargeNumber::print(std::ostream &os) const {

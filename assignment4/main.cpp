@@ -64,10 +64,17 @@ int main(int argc, char **argv) {
     /*
      * TEST SUM
      */
-    LargeNumber *plus1 = new LargeNumber("19999");
-    LargeNumber *plus2 = new LargeNumber("9999");
-    cout << (*plus1) + plus2 << endl;
+//    LargeNumber *plus1 = new LargeNumber("11");
+//    LargeNumber *plus2 = new LargeNumber("9999");
+//    cout << plus2 << endl;
+//    cout << (*plus1) + plus2 << endl;
 
+    /*
+     * TEST MULTIPLY
+     */
+    LargeNumber *plus1 = new LargeNumber("83493405");
+    LargeNumber *plus2 = new LargeNumber("3333");
+    cout << (*plus1) * plus2 << endl;
 //    static_cast<LargeNumber *>((*plus1) + plus2)->printArray();
 //    if (argc < 2) {
 //        cout << "Computes the n-th fibonacci and factorial." << endl;
