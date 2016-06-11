@@ -1,4 +1,8 @@
 //
+// Yorick de Boer (10786015)
+//
+
+//
 // -- TAIL <--> ITEM <--> HEAD --
 //
 

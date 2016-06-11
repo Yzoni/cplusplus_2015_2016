@@ -1,6 +1,7 @@
 //
 // Yorick de Boer (10786015)
 //
+
 #include <string>
 #include <cmath>
 #include <algorithm>
@@ -117,7 +118,7 @@ Number *LargeNumber::operator+(const Number *n) {
 
     DoublyLinkedList *result = new DoublyLinkedList();
 
-    // Check if bottom is largest number, if not swap pointers
+    // Check if bottom is longest number, if not swap pointers
     if (numTop.size() > numBottom.size()) {
         swap(numTop, numBottom);
     }
@@ -184,7 +185,7 @@ Number *LargeNumber::operator*(const Number *n) {
     DoublyLinkedList numTop = static_cast<const LargeNumber *>(n)->doublyLinkedList; // cast required to access "number"
     DoublyLinkedList numBottom = this->doublyLinkedList;
 
-    // Check if bottom is largest number
+    // Check if bottom is longest number
     if (numTop.size() > numBottom.size()) {
         swap(numTop, numBottom);
     }
@@ -202,10 +203,14 @@ Number *LargeNumber::operator*(const Number *n) {
         LargeNumber *betweenResult = new LargeNumber();
         countTop = 0;
         while (currentTop != NULL) {
-            zerosTop = k * countTop;
             between = currentTop->carry * currentBottom->carry;
-            ostringstream convert;   // stream used for the conversion
-            convert << (between);      // insert the textual representation of 'Number' in the characters in the stream
+
+            // Convert to string for zeros
+            ostringstream convert;
+            convert << (between);
+
+            // Add the zeros
+            zerosTop = k * countTop;
             for (int i = 0; i < zerosTop; ++i) {
                 convert << "0";
             }
@@ -221,9 +226,10 @@ Number *LargeNumber::operator*(const Number *n) {
             delete betweenResultPart;
         }
         result = static_cast<LargeNumber *>((*result) + betweenResult);
-        delete betweenResult;
+
         currentBottom = numBottom.getPrevItem(currentBottom);
         countBottom += 1;
+        delete betweenResult;
     }
     return result;
 }
