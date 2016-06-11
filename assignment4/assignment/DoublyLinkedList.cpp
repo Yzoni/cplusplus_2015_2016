@@ -1,5 +1,5 @@
 //
-// Created by yorick on 14-5-16.
+// Yorick de Boer (10786015)
 //
 
 #include <cstdlib>

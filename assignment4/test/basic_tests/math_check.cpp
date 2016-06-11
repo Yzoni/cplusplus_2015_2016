@@ -1,3 +1,7 @@
+//
+// Yorick de Boer (10786015)
+//
+
 #include <gtest/gtest.h>
 #include <LargeNumber.h>
 #include <Math.h>
