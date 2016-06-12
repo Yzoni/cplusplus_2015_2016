@@ -10,6 +10,24 @@
 /*
  * PLUS PLUS
  */
+TEST(large_number_check__Test, plusplus_from_zero) {
+    LargeNumber *plus1 = new LargeNumber("0");
+    (*plus1)++;
+    stringstream ss;
+    ss << plus1;
+
+    EXPECT_EQ(ss.str(), "1");
+}
+
+TEST(large_number_check__Test, plusplus_under_k) {
+    LargeNumber *plus1 = new LargeNumber("9");
+    (*plus1)++;
+    stringstream ss;
+    ss << plus1;
+
+    EXPECT_EQ(ss.str(), "10");
+}
+
 TEST(large_number_check__Test, plusplus) {
     LargeNumber *plus1 = new LargeNumber("2");
     (*plus1)++;
@@ -68,6 +86,23 @@ TEST(large_number_check__Test, plus2) {
     EXPECT_EQ(ss.str(), "333278533422");
 }
 
+TEST(large_number_check__Test, plus3) {
+    LargeNumber *plus1 = new LargeNumber("9999");
+    LargeNumber *plus2 = new LargeNumber("99999999");
+    stringstream ss;
+    ss << (*plus1) + plus2;
+
+    EXPECT_EQ(ss.str(), "100009998");
+}
+
+TEST(large_number_check__Test, plus4) {
+    LargeNumber *plus1 = new LargeNumber("99999999");
+    LargeNumber *plus2 = new LargeNumber("9999");
+    stringstream ss;
+    ss << (*plus1) + plus2;
+
+    EXPECT_EQ(ss.str(), "100009998");
+}
 
 /*
  * MULTIPLY
@@ -99,6 +134,23 @@ TEST(large_number_check__Test, multiply_single_inverse) {
     EXPECT_EQ(ss.str(), "2929707");
 }
 
+TEST(large_number_check__Test, multiply_1) {
+    LargeNumber *plus1 = new LargeNumber("1000");
+    LargeNumber *plus2 = new LargeNumber("10000");
+    stringstream ss;
+    ss << (*plus1) * plus2;
+
+    EXPECT_EQ(ss.str(), "10000000");
+}
+
+TEST(large_number_check__Test, multiply_2) {
+    LargeNumber *plus1 = new LargeNumber("9999");
+    LargeNumber *plus2 = new LargeNumber("9999");
+    stringstream ss;
+    ss << (*plus1) * plus2;
+
+    EXPECT_EQ(ss.str(), "99980001");
+}
 
 TEST(large_number_check__Test, multiply_multiple_overflow) {
     LargeNumber *plus1 = new LargeNumber("9320480923849230483094823");
